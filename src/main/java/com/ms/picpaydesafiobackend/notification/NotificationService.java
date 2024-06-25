@@ -1,12 +1,23 @@
 package com.ms.picpaydesafiobackend.notification;
 
 import com.ms.picpaydesafiobackend.transaction.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class NotificationService {
 
-    public void notify(Transaction transaction){
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationService.class);
 
+    private NotificationProducer notificationProducer;
+
+    public NotificationService(NotificationProducer notificationProducer) {
+        this.notificationProducer = notificationProducer;
+    }
+
+    public void notify(Transaction transaction) {
+        LOGGER.info("notifying transaction {}...", transaction);
+        notificationProducer.sendNotification(transaction);
     }
 }
