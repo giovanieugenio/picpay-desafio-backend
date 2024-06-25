@@ -15,8 +15,11 @@ public class AuthorizerService {
                 .build();
     }
     public void authorize(Transaction transaction){
-        restClient.get()
+        var response = restClient.get()
                 .retrieve()
                 .toEntity(Authorization.class);
+        if (response.getStatusCode().isError() || !response.getBody().isAuthorized()){
+            throw new UnauthorizedTransactionException("Unauthorized transaction!");
+        }
     }
 }

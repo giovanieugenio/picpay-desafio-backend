@@ -1,4 +1,4 @@
-package com.ms.picpaydesafiobackend.exception;
+package com.ms.picpaydesafiobackend.transaction;
 
 public class InvalidTransactionException extends RuntimeException{
 

@@ -2,7 +2,6 @@ package com.ms.picpaydesafiobackend.transaction;
 
 
 import com.ms.picpaydesafiobackend.authorization.AuthorizerService;
-import com.ms.picpaydesafiobackend.exception.InvalidTransactionException;
 import com.ms.picpaydesafiobackend.wallet.Wallet;
 import com.ms.picpaydesafiobackend.wallet.WalletRepository;
 import com.ms.picpaydesafiobackend.wallet.WalletType;
