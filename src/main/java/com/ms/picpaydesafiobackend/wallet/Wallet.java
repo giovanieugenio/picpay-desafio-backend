@@ -12,4 +12,8 @@ public record Wallet(
         String password,
         int type,
         BigDecimal balance) {
+
+    public Wallet debit(BigDecimal value){
+        return new Wallet(id, fullName, cpf, email, password, type, balance.subtract(value));
+    }
 }
