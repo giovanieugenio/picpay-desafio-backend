@@ -35,8 +35,10 @@ public class TransactionService {
     @Transactional
     public Transaction create(Transaction transaction){
         Transaction create = transactionRepository.save(transaction);
-        Wallet wallet = walletRepository.findById(transaction.payer()).get();
-        walletRepository.save(wallet.debit(transaction.value()));
+        Wallet walletPayer = walletRepository.findById(transaction.payer()).get();
+        Wallet walletPayee = walletRepository.findById(transaction.payee()).get();
+        walletRepository.save(walletPayer.debit(transaction.value()));
+        walletRepository.save(walletPayee.credit(transaction.value()));
         authorizerService.authorize(transaction);
         notificationService.notify(transaction);
         return create;
