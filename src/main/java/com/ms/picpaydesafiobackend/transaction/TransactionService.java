@@ -2,6 +2,7 @@ package com.ms.picpaydesafiobackend.transaction;
 
 
 import com.ms.picpaydesafiobackend.authorization.AuthorizerService;
+import com.ms.picpaydesafiobackend.notification.NotificationService;
 import com.ms.picpaydesafiobackend.wallet.Wallet;
 import com.ms.picpaydesafiobackend.wallet.WalletRepository;
 import com.ms.picpaydesafiobackend.wallet.WalletType;
@@ -17,12 +18,16 @@ public class TransactionService {
 
     private final AuthorizerService authorizerService;
 
+    private final NotificationService notificationService;
+
     public TransactionService(TransactionRepository transactionRepository,
                               WalletRepository walletRepository,
-                              AuthorizerService authorizerService){
+                              AuthorizerService authorizerService,
+                              NotificationService notificationService){
         this.transactionRepository = transactionRepository;
         this.walletRepository = walletRepository;
         this.authorizerService = authorizerService;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -31,6 +36,7 @@ public class TransactionService {
         Wallet wallet = walletRepository.findById(transaction.payer()).get();
         walletRepository.save(wallet.debit(transaction.value()));
         authorizerService.authorize(transaction);
+        notificationService.notify(transaction);
         return create;
     }
 
